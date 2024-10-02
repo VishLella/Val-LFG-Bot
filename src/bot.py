@@ -38,7 +38,7 @@ class LFGBot(commands.Bot):
                 user = self.get_user(user_id)
                 if user:
                     try:
-                        await user.send("You have been removed from the LFG queue since no match was found.")
+                        await user.send("You have been removed from the LFG queue since no teammate was found.")
                     except discord.errors.Forbidden:
                         pass # Can't send a DM to this user
     
