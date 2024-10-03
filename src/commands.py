@@ -33,9 +33,10 @@ class JoinVoiceChannelView(View):
         self.add_item(JoinVoiceChannelButton(channel, user_ids))
 
 class ServerSelect(ui.Select):
-    def __init__(self, servers):
+    def __init__(self, servers, tag):
         options = [discord.SelectOption(label=server, value=server) for server in servers]
         super().__init__(placeholder="Please choose your preferred servers!", min_values=1, max_values=len(servers), options=options)
+        self.tag = tag
 
     async def callback(self, interaction: discord.Interaction):
         selected_servers = self.values
@@ -43,7 +44,7 @@ class ServerSelect(ui.Select):
         region = get_user_region(member) # Gets the user's region
         rank = get_user_rank(member) #change to recieve the integer value from the RANKS const list
 
-        player = Player(member.id, member.display_name, region, rank, selected_servers)
+        player = Player(member.id, member.display_name, region, rank, selected_servers, self.tag)
 
         bot = interaction.client
         #inQueue = any(p.name == member.display_name for p in bot.lfg_queue)
@@ -57,29 +58,29 @@ class ServerSelect(ui.Select):
         await bot.check_queue()
 
 class ServerSelectView(ui.View):
-    def __init__(self, servers):
+    def __init__(self, servers, tag):
         super().__init__()
-        self.add_item(ServerSelect(servers))
+        self.add_item(ServerSelect(servers, tag))
 
 @app_commands.command(name="queue", description="Join the LFG queue!")
-async def queue(interaction: discord.Interaction):
+async def queue(interaction: discord.Interaction, tag: str = None):
     member = interaction.user
     region = get_user_region(member)
     rank = get_user_rank(member)
 
     if not region and not rank:
-        await interaction.response.send_message(f"You don't have a region and rank role. Please select one in <#{1289834896390357025}>.", ephemeral=True)
+        await interaction.response.send_message(f"You don't have a region and rank role. Please select one in <#{1270091183695331328}>.", ephemeral=True)
         return
     elif not region:
-        await interaction.response.send_message(f"You don't have a region role. Please select one in <#{1289834896390357025}>.", ephemeral=True)
+        await interaction.response.send_message(f"You don't have a region role. Please select one in <#{1270091183695331328}>.", ephemeral=True)
         return
     elif not rank:
-        await interaction.response.send_message(f"You don't have a rank role. Please select one in <#{1289834896390357025}>.", ephemeral=True)
+        await interaction.response.send_message(f"You don't have a rank role. Please select one in <#{1270091183695331328}>.", ephemeral=True)
         return
     
     available_servers = GAME_SERVERS.get(region, [])
 
-    view = ServerSelectView(available_servers)
+    view = ServerSelectView(available_servers, tag)
     await interaction.response.send_message("Select your game servers:", view=view, ephemeral=True)
 
 # Define Slash Command for leave

@@ -122,7 +122,7 @@ class LFGBot(commands.Bot):
 
         #LFG-SPAM channel
 
-        await self.get_channel(1283863135542841398).send(f"{self.get_user(player1.user_id).mention} and {self.get_user(player2.user_id).mention}, click the button below to join the voice channel!\n\n**Servers: {server_list}**", view=view)
+        await self.get_channel(1291417090640707655).send(f"{self.get_user(player1.user_id).mention} and {self.get_user(player2.user_id).mention}, click the button below to join the voice channel!\n\n**Tags:**\n{player1.tag or ''}\n{player2.tag or ''}\n\n**Servers: {server_list}**", view=view)
         
 
 
