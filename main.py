@@ -7,7 +7,7 @@ from src.bot import LFGBot
 
 
 load_dotenv()
-BOT_TOKEN = os.environ.get('TEST_TOKEN')
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
 #RIOT_KEY = os.environ.get('RIOT_KEY')
 
 if BOT_TOKEN:
