@@ -7,6 +7,15 @@ def get_user_region(member):
         
     return None
 
+def get_user_role(member):
+    play_roles = ["Sentinel", "Controller", "Initiator", "Duelist"]
+
+    for role in member.roles:
+        if role.name in play_roles:
+            return role.name
+        
+    return None
+
 def get_user_rank(member):
     rank_roles = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Diamond", "Ascendant", "Immortal 1", "Immortal 2", "Immortal 3", "Radiant"]
 
